@@ -2,14 +2,21 @@ package com.example.machinetestandroid.ui.list
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.example.machinetestandroid.R
+import com.example.machinetestandroid.data.network.MyApi
+import com.example.machinetestandroid.data.network.MyApiService
+import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
+import com.example.machinetestandroid.data.repositories.AnswerRepository
 import com.example.machinetestandroid.databinding.ListFragmentBinding
+import com.ransoft.androidpaging.util.toast
 
 class ListFragment : Fragment() {
 
@@ -30,12 +37,17 @@ class ListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        // TODO: Use the ViewModel
+        val networkConnectionInterceptor = NetworkConnectionInterceptor(requireContext())
+        val myApiService = MyApiService(networkConnectionInterceptor)
+        val answerRepository = AnswerRepository(myApiService)
+
+        viewModel = ListViewModel(requireContext(), answerRepository)
 
         binding.btnGoToDetails.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment()
             Navigation.findNavController(it).navigate(action)
         }
+
+        viewModel.getAnswers()
     }
 }
