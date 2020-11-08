@@ -5,8 +5,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class MyApiService(networkConnectionInterceptor: NetworkConnectionInterceptor) : MyApi {
+class MyApiService @Inject constructor(networkConnectionInterceptor: NetworkConnectionInterceptor) : MyApi {
 
     val baseUrl: String = "https://api.stackexchange.com/"
 

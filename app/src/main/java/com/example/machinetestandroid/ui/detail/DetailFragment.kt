@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.databinding.DetailFragmentBinding
+import javax.inject.Inject
 
 class DetailFragment : Fragment() {
 

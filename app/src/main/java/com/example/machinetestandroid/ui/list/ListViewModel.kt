@@ -12,8 +12,9 @@ import com.example.machinetestandroid.util.Coroutines
 import com.ransoft.androidpaging.util.NoInternetException
 import com.ransoft.androidpaging.util.toast
 import java.lang.Exception
+import javax.inject.Inject
 
-class ListViewModel(val context: Context, val answerRepository: AnswerRepository) : ViewModel() {
+class ListViewModel @Inject constructor(val context: Context, val answerRepository: AnswerRepository) : ViewModel() {
     val TAG = "ListViewModel"
 
     fun getAnswers() {

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApi
 import com.example.machinetestandroid.data.network.MyApiService
@@ -17,6 +18,7 @@ import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.repositories.AnswerRepository
 import com.example.machinetestandroid.databinding.ListFragmentBinding
 import com.ransoft.androidpaging.util.toast
+import javax.inject.Inject
 
 class ListFragment : Fragment() {
 
@@ -24,25 +26,21 @@ class ListFragment : Fragment() {
         fun newInstance() = ListFragment()
     }
 
-    private lateinit var viewModel: ListViewModel
+    @Inject
+    lateinit var viewModel: ListViewModel
     private lateinit var binding: ListFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (requireActivity().application as MyApplication).appComponent.inject(this)
         binding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val networkConnectionInterceptor = NetworkConnectionInterceptor(requireContext())
-        val myApiService = MyApiService(networkConnectionInterceptor)
-        val answerRepository = AnswerRepository(myApiService)
-
-        viewModel = ListViewModel(requireContext(), answerRepository)
-
         binding.btnGoToDetails.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment()
             Navigation.findNavController(it).navigate(action)
