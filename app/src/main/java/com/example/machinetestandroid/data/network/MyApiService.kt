@@ -23,8 +23,8 @@ class MyApiService @Inject constructor(val networkConnectionInterceptor: Network
 
     override suspend fun movieResponse(
         page: Int,
-        pagesize: Int
+        pageSize: Int
     ): retrofit2.Response<MovieResponse> {
-        return api.movieResponse(page, pagesize)
+        return api.movieResponse(page, pageSize)
     }
 }

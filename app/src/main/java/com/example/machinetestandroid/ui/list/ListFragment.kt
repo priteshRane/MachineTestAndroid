@@ -1,19 +1,16 @@
 package com.example.machinetestandroid.ui.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.os.NetworkOnMainThreadException
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
-import com.example.machinetestandroid.data.network.MyApiService
-import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
-import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.databinding.ListFragment2Binding
 import javax.inject.Inject
 
@@ -27,6 +24,7 @@ class ListFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: ListViewModel
+    val movieAdapter: MovieAdapter = MovieAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +37,13 @@ class ListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.button.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToDetailFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = movieAdapter
 
-        viewModel.getMovies()
+        viewModel.getMovies().observe(requireActivity(), Observer {
+            Log.d("API Frag", it.toString())
+            movieAdapter.submitList(it)
+        })
     }
 }

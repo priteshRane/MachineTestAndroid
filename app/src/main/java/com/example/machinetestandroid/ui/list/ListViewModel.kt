@@ -1,32 +1,36 @@
 package com.example.machinetestandroid.ui.list
 
 import android.content.Context
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.machinetestandroid.data.repositories.MovieRepository
-import com.example.machinetestandroid.util.Coroutines
-import com.example.machinetestandroid.util.NoInternetException
-import com.example.machinetestandroid.util.toast
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.machinetestandroid.data.network.responses.Movie
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(val context: Context, val movieRepository: MovieRepository) : ViewModel() {
+class ListViewModel @Inject constructor(val context: Context, val movieDataSource: MovieDataSource) : ViewModel() {
 
-    val TAG = "ListViewModel"
+    var movieLiveData  : LiveData<PagedList<Movie>>
 
-    fun getMovies() {
-        Coroutines.main {
-            try {
-                val movieResponse = movieRepository.movieData(1, 10)
-                if (movieResponse.isSuccessful) {
-                    movieResponse.body()?.movie
-                }
-            } catch (e: NoInternetException) {
-                Log.i(TAG, e.toString())
-                context.toast("No Internet, Please check your connection")
-            } catch (e: Exception) {
-                Log.i(TAG, e.toString())
-                context.toast("Something went wrong, Please try again!")
+    init {
+        val config = PagedList.Config.Builder()
+            .setPageSize(10)
+            .setEnablePlaceholders(false)
+            .build()
+        movieLiveData  = initializedPagedListBuilder(config).build()
+    }
+
+    private fun initializedPagedListBuilder(config: PagedList.Config):
+            LivePagedListBuilder<Int, Movie> {
+
+        val dataSourceFactory = object : DataSource.Factory<Int, Movie>() {
+            override fun create(): DataSource<Int, Movie> {
+                return movieDataSource
             }
         }
+        return LivePagedListBuilder<Int, Movie>(dataSourceFactory, config)
     }
+
+    fun getMovies():LiveData<PagedList<Movie>> = movieLiveData
 }
