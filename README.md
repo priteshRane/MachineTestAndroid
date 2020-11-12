@@ -1,2 +1,2 @@
 # MachineTestAndroid
-feature/test-001: Show list, Open details page on item click
+feature/test-001: Call API Using retrofit, Use Navigation component, Use Coroutine, Use Retrofit, Use Data binding
