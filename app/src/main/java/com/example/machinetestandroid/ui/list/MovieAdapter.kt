@@ -13,7 +13,7 @@ import com.example.machinetestandroid.data.network.responses.Movie
 import kotlinx.android.synthetic.main.movie_card.view.*
 
 lateinit var context: Context
-class MovieAdapter :
+class MovieAdapter(private val movieClickListener: MovieClickListener) :
     PagedListAdapter<Movie, MovieAdapter.ItemViewHolder>(
         DIFF_CALLBACK
     ) {
@@ -33,7 +33,18 @@ class MovieAdapter :
         position: Int
     ) {
         val movieEntity: Movie = getItem(position)!!
-        holder.bind(movieEntity, position)
+        Glide
+            .with(context)
+            .load(movieEntity.posterUrl)
+            .centerCrop()
+            .into(holder.moviePoster);
+
+        holder.movieName.text = (position + 1).toString() + movieEntity.name
+        holder.rating.text = movieEntity.rating.toString()
+        holder.directors.text = movieEntity.directors
+        holder.moviePoster.setOnClickListener {
+            movieClickListener.onMovieClick(it, movieEntity)
+        }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,21 +52,6 @@ class MovieAdapter :
         val movieName = itemView.tv_movie_name
         val rating = itemView.tv_rating
         val directors = itemView.tv_directors
-
-        fun bind(
-            movieEntity: Movie,
-            position: Int
-        ) {
-            Glide
-                .with(context)
-                .load(movieEntity.posterUrl)
-                .centerCrop()
-                .into(moviePoster);
-
-            movieName.text = (position + 1).toString() + movieEntity.name
-            rating.text = movieEntity.rating.toString()
-            directors.text = movieEntity.directors
-        }
     }
 
     companion object {

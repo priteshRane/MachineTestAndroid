@@ -49,17 +49,17 @@ class MovieDataSource @Inject constructor(
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
-        Coroutines.main {
-            try {
-                val answerResponse = myApiService.movieResponse(params.key, PAGE_SIZE).body()!!
-                if (params.key > 1) {
-                    callback.onResult(answerResponse.movie, params.key - 1)
-                }
-            } catch (e: NoInternetException) {
-                Log.d(LOG_TAG_API, "NoInternetException in ItemDataSource: " + e)
-            } catch (e: Exception) {
-                Log.d(LOG_TAG_API, "Exception in ItemDataSource: " + e.toString())
-            }
-        }
+//        Coroutines.main {
+//            try {
+//                val answerResponse = myApiService.movieResponse(params.key, PAGE_SIZE).body()!!
+//                if (params.key > 1) {
+//                    callback.onResult(answerResponse.movie, params.key - 1)
+//                }
+//            } catch (e: NoInternetException) {
+//                Log.d(LOG_TAG_API, "NoInternetException in ItemDataSource: " + e)
+//            } catch (e: Exception) {
+//                Log.d(LOG_TAG_API, "Exception in ItemDataSource: " + e.toString())
+//            }
+//        }
     }
 }

@@ -12,10 +12,6 @@ import com.example.machinetestandroid.databinding.DetailFragment2Binding
 
 class DetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DetailFragment()
-    }
-
     private lateinit var binding: DetailFragment2Binding
     private lateinit var viewModel: DetailViewModel
 

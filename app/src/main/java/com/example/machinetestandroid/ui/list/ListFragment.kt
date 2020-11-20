@@ -8,23 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
+import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.databinding.ListFragment2Binding
 import javax.inject.Inject
 
-class ListFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ListFragment()
-    }
+class ListFragment : Fragment(), MovieClickListener {
 
     private lateinit var binding: ListFragment2Binding
 
     @Inject
     lateinit var viewModel: ListViewModel
-    val movieAdapter: MovieAdapter = MovieAdapter()
+    val movieAdapter: MovieAdapter = MovieAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +42,12 @@ class ListFragment : Fragment() {
         binding.recyclerView.adapter = movieAdapter
 
         viewModel.getMovies().observe(requireActivity(), Observer {
-            Log.d("API Frag", it.toString())
             movieAdapter.submitList(it)
         })
+    }
+
+    override fun onMovieClick(view: View, movie: Movie) {
+        val action = ListFragmentDirections.actionListFragmentToDetailFragment()
+        Navigation.findNavController(view).navigate(action)
     }
 }
