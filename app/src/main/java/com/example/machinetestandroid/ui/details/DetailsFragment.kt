@@ -6,16 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.databinding.DetailsFragmentBinding
 
 class DetailsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = DetailsFragment()
-    }
-
     private lateinit var binding: DetailsFragmentBinding
     private lateinit var viewModel: DetailsViewModel
 
@@ -32,5 +30,4 @@ class DetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }

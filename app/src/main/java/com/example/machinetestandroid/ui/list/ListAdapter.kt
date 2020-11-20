@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.response.Movie
 import com.example.machinetestandroid.databinding.MovieItemBinding
 
-class ListAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
+class ListAdapter(private val movies: List<Movie>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,6 +23,9 @@ class ListAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<ListAd
 
     override fun onBindViewHolder(holder: ListAdapter.MyViewHolder, position: Int) {
         holder.binding.movie = movies[position]
+        holder.binding.poster.setOnClickListener {
+            listener.onRecyclerViewItemClick(holder.binding.root, movies[position])
+        }
     }
 
     override fun getItemCount() = movies.size
