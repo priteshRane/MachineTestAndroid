@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.databinding.ListFragmentBinding
@@ -35,11 +37,14 @@ class ListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.button.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToDetailsFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
 
         viewModel.getMovies()
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+            binding.recyclerView.also {
+                it.layoutManager = LinearLayoutManager(requireActivity())
+                it.setHasFixedSize(true)
+                it.adapter = ListAdapter(movies)
+            }
+        })
     }
 }
