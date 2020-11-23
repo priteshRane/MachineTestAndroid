@@ -2,16 +2,23 @@ package com.example.machinetestandroid.ui.list
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
+import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
+import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.responses.Movie
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(val context: Context, val movieDataSource: MovieDataSource) : ViewModel() {
 
-    var movieLiveData  : LiveData<PagedList<Movie>>
+class ListViewModel @Inject constructor(
+    val context: Context,
+    val movieDataSource: MovieDataSource
+) : ViewModel() {
+
+    var movieLiveData : LiveData<PagedList<Movie>>
 
     init {
         val config = PagedList.Config.Builder()
@@ -31,6 +38,4 @@ class ListViewModel @Inject constructor(val context: Context, val movieDataSourc
         }
         return LivePagedListBuilder<Int, Movie>(dataSourceFactory, config)
     }
-
-    fun getMovies():LiveData<PagedList<Movie>> = movieLiveData
 }

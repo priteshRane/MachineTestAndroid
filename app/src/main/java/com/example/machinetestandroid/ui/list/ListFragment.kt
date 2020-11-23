@@ -1,5 +1,6 @@
 package com.example.machinetestandroid.ui.list
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -41,8 +42,8 @@ class ListFragment : Fragment(), MovieClickListener {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = movieAdapter
 
-        viewModel.getMovies().observe(requireActivity(), Observer {
-            movieAdapter.submitList(it)
+        viewModel.movieLiveData.observe(requireActivity(), Observer { movies ->
+            movieAdapter.submitList(movies)
         })
     }
 
