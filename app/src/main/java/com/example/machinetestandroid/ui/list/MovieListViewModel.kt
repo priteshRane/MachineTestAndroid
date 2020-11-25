@@ -3,10 +3,12 @@ package com.example.machinetestandroid.ui.list
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.machinetestandroid.data.network.responses.MovieResponse
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.util.Coroutines
 import com.example.machinetestandroid.util.NoInternetException
 import com.example.machinetestandroid.util.toast
+import retrofit2.Response
 import javax.inject.Inject
 
 class MovieListViewModel @Inject constructor(
@@ -16,20 +18,7 @@ class MovieListViewModel @Inject constructor(
 
     val TAG = "ListViewModel"
 
-    fun getMovies() {
-        Coroutines.main {
-            try {
-                val movieResponse = movieRepository.getMovies(1, 10)
-                if (movieResponse.isSuccessful) {
-                    movieResponse.body()?.movie!!
-                }
-            } catch (e: NoInternetException) {
-                Log.i(TAG, e.toString())
-                context.toast("No Internet, Please check your connection")
-            } catch (e: Exception) {
-                Log.i(TAG, e.toString())
-                context.toast("Something went wrong, Please try again!")
-            }
-        }
+    suspend fun getMovies(page: Int, pageSize: Int): Response<MovieResponse> {
+        return movieRepository.getMovies(1, 10)
     }
 }
