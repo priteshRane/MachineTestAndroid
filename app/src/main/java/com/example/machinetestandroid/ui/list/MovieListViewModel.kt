@@ -19,6 +19,6 @@ class MovieListViewModel @Inject constructor(
     val TAG = "ListViewModel"
 
     suspend fun getMovies(page: Int, pageSize: Int): Response<MovieResponse> {
-        return movieRepository.getMovies(1, 10)
+        return movieRepository.getMovies(page, pageSize)
     }
 }

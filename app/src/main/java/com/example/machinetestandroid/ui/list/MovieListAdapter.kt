@@ -6,8 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.databinding.MovieItemBinding
+import java.util.ArrayList
 
-class MovieListAdapter(private val movies: List<Movie>, private val listener: MovieClickListener) : RecyclerView.Adapter<MovieListAdapter.MyViewHolder>() {
+class MovieListAdapter(private val listener: MovieClickListener) : RecyclerView.Adapter<MovieListAdapter.MyViewHolder>() {
+    private var movies: MutableList<Movie> = mutableListOf()
+
+    fun addMovies(_movies: List<Movie>) {
+        movies.addAll(_movies)
+    }
 
     inner class MyViewHolder(val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root)
 
