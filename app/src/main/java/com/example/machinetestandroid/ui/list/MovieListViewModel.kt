@@ -3,7 +3,10 @@ package com.example.machinetestandroid.ui.list
 import android.content.Context
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.network.responses.MovieResponse
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.util.Coroutines
@@ -25,15 +28,18 @@ class MovieListViewModel @Inject constructor(
 
     var movieListInterface: MovieListInterface? = null
 
-    fun getMovies(page: Int, pageSize: Int) {
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>>
+        get() = _movies
+
+    fun getMovies() {
         Coroutines.main {
             try {
-                val movieResponse = movieRepository.getMovies(page, pageSize)
+                val movieResponse = movieRepository.getMovies(page, PAGE_SIZE)
                 if (movieResponse.isSuccessful) {
                     totalPages = movieResponse.body()?.totalPages!!
 
-                    val movies = movieResponse.body()?.movie!!
-                    movieListInterface?.addMovies(movies) // add interface
+                    _movies.value = movieResponse.body()?.movie!!
 
                     isLoadingMovies = false
 

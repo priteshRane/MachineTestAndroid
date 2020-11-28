@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,6 +71,10 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
                 get() = viewModel.isLoadingMovies
 
         })
+
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+            movieListAdapter.addMovies(movies)
+        })
     }
 
     override fun onMovieItemClick(view: View, movie: Movie) {
@@ -78,11 +83,7 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
     }
 
     fun callGetMoviesAPI() {
-        viewModel.getMovies(viewModel.page, viewModel.PAGE_SIZE)
-    }
-
-    override fun addMovies(movies: List<Movie>) {
-        movieListAdapter.addMovies(movies)
+        viewModel.getMovies()
     }
 
     override fun setScrollPosition(position: Int) {
