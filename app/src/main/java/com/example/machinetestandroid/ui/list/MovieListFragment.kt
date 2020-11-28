@@ -20,7 +20,7 @@ import com.example.machinetestandroid.util.toast
 import javax.inject.Inject
 
 
-class MovieListFragment : Fragment(), MovieClickListener {
+class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
 
     companion object {
         fun newInstance() = MovieListFragment()
@@ -31,11 +31,6 @@ class MovieListFragment : Fragment(), MovieClickListener {
     private lateinit var binding: MovieListFragmentBinding
     private lateinit var movieListAdapter: MovieListAdapter
     private val TAG = "MovieListFragment"
-    private val PAGE_SIZE = 10
-    private var totalPages = 0
-    private var page = 1
-    private var isLoadingMovies = false
-    private var isLastPageMovies = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +43,7 @@ class MovieListFragment : Fragment(), MovieClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.movieListInterface = this
         movieListAdapter = MovieListAdapter(this)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.apply {
@@ -61,17 +57,17 @@ class MovieListFragment : Fragment(), MovieClickListener {
         binding.recyclerView.addOnScrollListener(object :
             MoviePaginationScrollListener(layoutManager) {
             override fun loadMoreItems() {
-                isLoadingMovies = true
-                page += 1
+                viewModel.isLoadingMovies = true
+                viewModel.page += 1
                 callGetMoviesAPI()
             }
 
             override val totalPageCount: Int
-                get() = totalPages
+                get() = viewModel.totalPages
             override val isLastPage: Boolean
-                get() = isLastPageMovies
+                get() = viewModel.isLastPageMovies
             override val isLoading: Boolean
-                get() = isLoadingMovies
+                get() = viewModel.isLoadingMovies
 
         })
     }
@@ -82,33 +78,14 @@ class MovieListFragment : Fragment(), MovieClickListener {
     }
 
     fun callGetMoviesAPI() {
-        Coroutines.main {
-            try {
-                binding.progressBar.visibility = View.VISIBLE
+        viewModel.getMovies(viewModel.page, viewModel.PAGE_SIZE)
+    }
 
-                val movieResponse = viewModel.getMovies(page, PAGE_SIZE)
-                if (movieResponse.isSuccessful) {
-                    totalPages = movieResponse.body()?.totalPages!!
+    override fun addMovies(movies: List<Movie>) {
+        movieListAdapter.addMovies(movies)
+    }
 
-                    val movies = movieResponse.body()?.movie!!
-                    movieListAdapter.addMovies(movies)
-
-                    binding.progressBar.visibility = View.INVISIBLE
-                    isLoadingMovies = false
-
-                    if (page == totalPages) {
-                        isLastPageMovies = true
-                    }
-
-                    binding.recyclerView.scrollToPosition((page - 1) * 10)
-                }
-            } catch (e: NoInternetException) {
-                Log.i(TAG, e.toString())
-                requireActivity().toast("No Internet, Please check your connection")
-            } catch (e: Exception) {
-                Log.i(TAG, e.toString())
-                requireActivity().toast("Something went wrong, Please try again!")
-            }
-        }
+    override fun setScrollPosition(position: Int) {
+        binding.recyclerView.scrollToPosition(position) // add interface
     }
 }
