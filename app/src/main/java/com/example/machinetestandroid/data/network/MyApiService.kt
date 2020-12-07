@@ -1,6 +1,6 @@
 package com.example.machinetestandroid.data.network
 
-import com.example.machinetestandroid.data.network.responses.AnswerResponse
+import com.example.machinetestandroid.data.network.responses.MovieResponse
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MyApiService @Inject constructor(networkConnectionInterceptor: NetworkConnectionInterceptor) : MyApi {
 
-    val baseUrl: String = "https://api.stackexchange.com/"
+    val baseUrl: String = "https://asia-south1-testapis-286008.cloudfunctions.net/movieTestApis/movie/"
 
     val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(networkConnectionInterceptor)
@@ -22,7 +22,10 @@ class MyApiService @Inject constructor(networkConnectionInterceptor: NetworkConn
             .build()
             .create(MyApi::class.java)
 
-    override suspend fun answerResponse(page: Int, pagesize: Int, order: String, sort: String, site: String): Response<AnswerResponse> {
-        return api.answerResponse(page, pagesize, order, sort, site)
+    override suspend fun movieResponse(
+        page: Int,
+        pageSize: Int
+    ): retrofit2.Response<MovieResponse> {
+        return api.movieResponse(page, pageSize)
     }
 }
