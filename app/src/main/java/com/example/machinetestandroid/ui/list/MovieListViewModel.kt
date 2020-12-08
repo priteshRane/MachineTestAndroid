@@ -12,7 +12,7 @@ import com.example.machinetestandroid.util.NoInternetException
 import com.example.machinetestandroid.util.toast
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(
+class MovieListViewModel @Inject constructor(
     val context: Context,
     val movieRepository: MovieRepository
 ) : ViewModel() {

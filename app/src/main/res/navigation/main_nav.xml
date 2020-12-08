@@ -3,20 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/listFragment">
-
+    app:startDestination="@id/movieListFragment">
     <fragment
-        android:id="@+id/listFragment"
-        android:name="com.example.machinetestandroid.ui.list.ListFragment"
-        android:label="list_fragment"
-        tools:layout="@layout/list_fragment" >
+        android:id="@+id/movieListFragment"
+        android:name="com.example.machinetestandroid.ui.list.MovieListFragment"
+        android:label="movie_list_fragment"
+        tools:layout="@layout/movie_list_fragment" >
         <action
-            android:id="@+id/action_listFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            android:id="@+id/action_movieListFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.example.machinetestandroid.ui.details.DetailsFragment"
-        android:label="details_fragment"
-        tools:layout="@layout/details_fragment" />
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.machinetestandroid.ui.details.MovieDetailsFragment"
+        android:label="movie_details_fragment"
+        tools:layout="@layout/movie_details_fragment" />
 </navigation>
