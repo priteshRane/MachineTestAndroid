@@ -1,6 +1,7 @@
 package com.example.machinetestandroid.di
 
 import android.content.Context
+import com.example.machinetestandroid.ui.detail.MovieDetailFragment
 import com.example.machinetestandroid.ui.list.MovieListFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -14,4 +15,5 @@ interface AppComponent {
     }
 
     fun inject(listFragment: MovieListFragment)
+    fun inject(detailFragment: MovieDetailFragment)
 }

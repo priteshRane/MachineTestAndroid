@@ -49,6 +49,11 @@ class MovieListFragment : Fragment(), MovieClickListener {
 
     override fun onMovieClick(view: View, movie: Movie) {
         val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment()
+        action.setPosterUrl(movie.posterUrl.toString())
+        action.setName(movie.name.toString())
+        action.setRating(movie.rating.toString())
+        action.setDuration(movie.duration.toString())
+        action.setDirector(movie.directors.toString())
         Navigation.findNavController(view).navigate(action)
     }
 }

@@ -39,7 +39,7 @@ class MovieAdapter(private val movieClickListener: MovieClickListener) :
             .centerCrop()
             .into(holder.moviePoster);
 
-        holder.movieName.text = (position + 1).toString() + movieEntity.name
+        holder.movieName.text = movieEntity.name
         holder.rating.text = movieEntity.rating.toString()
         holder.directors.text = movieEntity.directors
         holder.duration.text = movieEntity.duration
