@@ -42,6 +42,7 @@ class MovieAdapter(private val movieClickListener: MovieClickListener) :
         holder.movieName.text = (position + 1).toString() + movieEntity.name
         holder.rating.text = movieEntity.rating.toString()
         holder.directors.text = movieEntity.directors
+        holder.duration.text = movieEntity.duration
         holder.moviePoster.setOnClickListener {
             movieClickListener.onMovieClick(it, movieEntity)
         }
@@ -52,6 +53,7 @@ class MovieAdapter(private val movieClickListener: MovieClickListener) :
         val movieName = itemView.tv_movie_name
         val rating = itemView.tv_rating
         val directors = itemView.tv_directors
+        val duration = itemView.tv_duration
     }
 
     companion object {

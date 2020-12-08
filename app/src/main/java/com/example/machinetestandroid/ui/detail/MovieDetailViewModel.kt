@@ -2,6 +2,6 @@ package com.example.machinetestandroid.ui.detail
 
 import androidx.lifecycle.ViewModel
 
-class DetailViewModel : ViewModel() {
+class MovieDetailViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

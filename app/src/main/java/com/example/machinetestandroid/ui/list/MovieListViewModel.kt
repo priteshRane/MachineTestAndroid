@@ -13,7 +13,7 @@ import com.example.machinetestandroid.data.network.responses.Movie
 import javax.inject.Inject
 
 
-class ListViewModel @Inject constructor(
+class MovieListViewModel @Inject constructor(
     val context: Context,
     val movieDataSource: MovieDataSource
 ) : ViewModel() {

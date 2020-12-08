@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.machinetestandroid.R
-import com.example.machinetestandroid.databinding.DetailFragment2Binding
+import com.example.machinetestandroid.databinding.MovieDetailFragmentBinding
 
-class DetailFragment : Fragment() {
+class MovieDetailFragment : Fragment() {
 
-    private lateinit var binding: DetailFragment2Binding
-    private lateinit var viewModel: DetailViewModel
+    private lateinit var binding: MovieDetailFragmentBinding
+    private lateinit var viewModel: MovieDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.detail_fragment2, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.movie_detail_fragment, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

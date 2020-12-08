@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Machine Test Android</string>
+    <string name="movie_name">Movie name</string>
+    <string name="rating">Rating</string>
+    <string name="directors">Directors</string>
+    <string name="duration">Duration</string>
 </resources>
