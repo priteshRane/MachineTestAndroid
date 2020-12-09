@@ -26,8 +26,6 @@ class MovieListViewModel @Inject constructor(
     var isLoadingMovies = false
     var isLastPageMovies = false
 
-    var movieListInterface: MovieListInterface? = null
-
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
         get() = _movies
@@ -46,8 +44,6 @@ class MovieListViewModel @Inject constructor(
                     if (page == totalPages) {
                         isLastPageMovies = true
                     }
-
-                    movieListInterface?.setScrollPosition((page - 1) * 10)
                 }
             } catch (e: NoInternetException) {
                 Log.i(TAG, e.toString())

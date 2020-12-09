@@ -21,16 +21,12 @@ import com.example.machinetestandroid.util.toast
 import javax.inject.Inject
 
 
-class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
-
-    companion object {
-        fun newInstance() = MovieListFragment()
-    }
+class MovieListFragment : Fragment(), MovieClickListener {
 
     @Inject
     lateinit var viewModel: MovieListViewModel
     private lateinit var binding: MovieListFragmentBinding
-    private lateinit var movieListAdapter: MovieListAdapter
+    private val movieListAdapter = MovieListAdapter(this)
     private val TAG = "MovieListFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +44,6 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.movieListInterface = this
-        movieListAdapter = MovieListAdapter(this)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.apply {
             this.layoutManager = layoutManager
@@ -57,14 +51,20 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
             this.adapter = movieListAdapter
         }
 
-        callGetMoviesAPI()
+        if (viewModel.movies.value.isNullOrEmpty()) {
+            viewModel.getMovies()
+            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+                binding.recyclerView.adapter = movieListAdapter
+                movieListAdapter.addMovies(movies)
+            })
+        }
 
         binding.recyclerView.addOnScrollListener(object :
             MoviePaginationScrollListener(layoutManager) {
             override fun loadMoreItems() {
                 viewModel.isLoadingMovies = true
                 viewModel.page += 1
-                callGetMoviesAPI()
+                viewModel.getMovies()
             }
 
             override val totalPageCount: Int
@@ -75,22 +75,10 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
                 get() = viewModel.isLoadingMovies
 
         })
-
-        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-            movieListAdapter.addMovies(movies)
-        })
     }
 
     override fun onMovieItemClick(view: View, movie: Movie) {
         val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailsFragment()
         Navigation.findNavController(view).navigate(action)
-    }
-
-    fun callGetMoviesAPI() {
-        viewModel.getMovies()
-    }
-
-    override fun setScrollPosition(position: Int) {
-        binding.recyclerView.scrollToPosition(position) // add interface
     }
 }
