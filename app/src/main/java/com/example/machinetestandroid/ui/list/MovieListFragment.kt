@@ -15,16 +15,17 @@ import com.example.machinetestandroid.data.network.response.Movie
 import com.example.machinetestandroid.databinding.MovieListFragmentBinding
 import javax.inject.Inject
 
-class MovieListFragment : Fragment(), MovieClickListener {
+class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
 
     @Inject
     lateinit var viewModel: MovieListViewModel
     private lateinit var binding: MovieListFragmentBinding
-    private var movieListAdapter = MovieListAdapter(this)
+    private val movieListAdapter = MovieListAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
+        viewModel.movieListInterface = this
     }
 
     override fun onCreateView(
@@ -37,25 +38,28 @@ class MovieListFragment : Fragment(), MovieClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.apply {
-            this.layoutManager = layoutManager
-            this.setHasFixedSize(true)
-            this.adapter = movieListAdapter
+        binding.recyclerView.also {
+            it.layoutManager = LinearLayoutManager(requireContext())
+            it.setHasFixedSize(true)
         }
 
-        if (viewModel.movies.value.isNullOrEmpty()) {
-            viewModel.getMovieList()
-            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-                binding.recyclerView.adapter = movieListAdapter
-                movieListAdapter.addMovies(movies)
-            })
-        }
+        viewModel.getMovieList()
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+            binding.recyclerView.adapter = movieListAdapter.also { it.addMovies(movies) }
+        })
     }
 
     override fun onMovieItemClick(view: View, movie: Movie) {
         val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailsFragment()
         action.setMovieName(movie.name.toString())
         Navigation.findNavController(view).navigate(action)
+    }
+
+    override fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 }

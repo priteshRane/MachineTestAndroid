@@ -17,13 +17,14 @@ class MovieListViewModel @Inject constructor(
     val movieRepository: MovieRepository
 ) : ViewModel() {
     val TAG = "MovieListViewModel"
+    var movieListInterface: MovieListInterface? = null
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>>
         get() = _movies
 
     fun getMovieList(): LiveData<List<Movie>> {
         Log.i(TAG, "Get Movies")
-        if (movies.value == null) {
+        if (movies.value.isNullOrEmpty()) {
             getMoviesFromRepository()
         }
         return movies
@@ -32,9 +33,11 @@ class MovieListViewModel @Inject constructor(
     private fun getMoviesFromRepository() {
         Coroutines.main {
             try {
+                movieListInterface?.showProgressBar()
                 val movieResponse = movieRepository.getMovies(1, 10)
                 if (movieResponse.isSuccessful) {
                     _movies.value = movieResponse.body()?.movie
+                    movieListInterface?.hideProgressBar()
                 }
             } catch (e: NoInternetException) {
                 Log.i(TAG, e.toString())
