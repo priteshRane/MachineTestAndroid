@@ -45,26 +45,23 @@ class MovieListFragment : Fragment(), MovieClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.apply {
-            this.layoutManager = layoutManager
-            this.setHasFixedSize(true)
-            this.adapter = movieListAdapter
+        binding.recyclerView.also {
+            it.layoutManager = layoutManager
+            it.setHasFixedSize(true)
         }
 
-        if (viewModel.movies.value.isNullOrEmpty()) {
-            viewModel.getMovies()
-            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-                binding.recyclerView.adapter = movieListAdapter
-                movieListAdapter.addMovies(movies)
-            })
-        }
+        viewModel.getMovieList()
+        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+            binding.recyclerView.adapter = movieListAdapter
+            movieListAdapter.addMovies(movies)
+        })
 
         binding.recyclerView.addOnScrollListener(object :
             MoviePaginationScrollListener(layoutManager) {
             override fun loadMoreItems() {
                 viewModel.isLoadingMovies = true
                 viewModel.page += 1
-                viewModel.getMovies()
+                viewModel.getMovieList()
             }
 
             override val totalPageCount: Int

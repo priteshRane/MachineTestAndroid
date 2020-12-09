@@ -30,7 +30,15 @@ class MovieListViewModel @Inject constructor(
     val movies: LiveData<List<Movie>>
         get() = _movies
 
-    fun getMovies() {
+    fun getMovieList(): LiveData<List<Movie>> {
+        Log.i(TAG, "Get Movies")
+        if (movies.value.isNullOrEmpty() || !isLastPageMovies) {
+            getMoviesFromRepository()
+        }
+        return movies
+    }
+
+    private fun getMoviesFromRepository() {
         Coroutines.main {
             try {
                 val movieResponse = movieRepository.getMovies(page, PAGE_SIZE)
