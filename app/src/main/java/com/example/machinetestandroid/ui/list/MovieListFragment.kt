@@ -33,11 +33,15 @@ class MovieListFragment : Fragment(), MovieClickListener, MovieListInterface {
     private lateinit var movieListAdapter: MovieListAdapter
     private val TAG = "MovieListFragment"
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity().application as MyApplication).appComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (requireActivity().application as MyApplication).appComponent.inject(this)
         binding = DataBindingUtil.inflate(inflater, R.layout.movie_list_fragment, container, false)
         return binding.root
     }
