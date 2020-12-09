@@ -16,32 +16,44 @@ import com.example.machinetestandroid.databinding.MovieListFragmentBinding
 import javax.inject.Inject
 
 class MovieListFragment : Fragment(), MovieClickListener {
-    private lateinit var binding: MovieListFragmentBinding
 
     @Inject
     lateinit var viewModel: MovieListViewModel
+    private lateinit var binding: MovieListFragmentBinding
+    private var movieListAdapter = MovieListAdapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity().application as MyApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (requireActivity().application as MyApplication).appComponent.inject(this)
         binding = DataBindingUtil.inflate(inflater, R.layout.movie_list_fragment, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        binding.recyclerView.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.apply {
+            this.layoutManager = layoutManager
+            this.setHasFixedSize(true)
+            this.adapter = movieListAdapter
+        }
 
-        viewModel.getMovies()
-        viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
-            binding.recyclerView.adapter = MovieListAdapter(movies, this)
-        })
+        if (viewModel.movies.value.isNullOrEmpty()) {
+            viewModel.getMovieList()
+            viewModel.movies.observe(viewLifecycleOwner, Observer { movies ->
+                binding.recyclerView.adapter = movieListAdapter
+                movieListAdapter.addMovies(movies)
+            })
+        }
     }
 
-    override fun onRecyclerViewItemClick(view: View, movie: Movie) {
+    override fun onMovieItemClick(view: View, movie: Movie) {
         val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailsFragment()
         Navigation.findNavController(view).navigate(action)
     }

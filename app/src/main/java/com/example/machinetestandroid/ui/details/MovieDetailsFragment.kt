@@ -7,19 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.databinding.MovieDetailsFragmentBinding
 import javax.inject.Inject
 
 class MovieDetailsFragment : Fragment() {
-    private lateinit var binding: MovieDetailsFragmentBinding
 
     @Inject
     lateinit var viewModel: MovieDetailsViewModel
+    private lateinit var binding: MovieDetailsFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
     override fun onCreateView(

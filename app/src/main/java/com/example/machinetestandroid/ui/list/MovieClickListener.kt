@@ -4,5 +4,5 @@ import android.view.View
 import com.example.machinetestandroid.data.network.response.Movie
 
 interface MovieClickListener {
-    fun onRecyclerViewItemClick(view: View, movie: Movie)
+    fun onMovieItemClick(view: View, movie: Movie)
 }
