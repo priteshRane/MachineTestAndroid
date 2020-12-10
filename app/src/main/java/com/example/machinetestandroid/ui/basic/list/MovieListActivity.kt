@@ -8,16 +8,19 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.databinding.ActivityMovieListBinding
 import com.example.machinetestandroid.ui.basic.details.MovieDetailsActivity
+import javax.inject.Inject
 
 class MovieListActivity : AppCompatActivity(), MovieListInterface {
 
-    lateinit var viewModelFactory: MovieListViewModelFactory
+    // lateinit var viewModelFactory: MovieListViewModelFactory
+    @Inject
     lateinit var viewModel: MovieListViewModel
     lateinit var binding: ActivityMovieListBinding
     val TAG = "MovieListActivity"
@@ -27,8 +30,9 @@ class MovieListActivity : AppCompatActivity(), MovieListInterface {
         val myApiService = MyApiService(networkConnectionInterceptor)
         val movieRepository = MovieRepository(myApiService)
 
-        viewModelFactory = MovieListViewModelFactory(this, movieRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
+        // viewModelFactory = MovieListViewModelFactory(this, movieRepository)
+        // viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
+        (application as MyApplication).appComponent.inject(this)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_list)
         viewModel.movieListInterface = this

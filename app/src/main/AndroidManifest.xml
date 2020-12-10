@@ -11,8 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MachineTestAndroid">
-        <activity android:name=".ui.basic.details.MovieDetailsActivity"></activity>
+        android:theme="@style/Theme.MachineTestAndroid"
+        android:name=".MyApplication">
+        <activity android:name=".ui.basic.details.MovieDetailsActivity" />
         <activity android:name=".ui.basic.list.MovieListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
