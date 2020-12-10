@@ -7,31 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.example.machinetestandroid.MyApplication
 import com.example.machinetestandroid.R
-import com.example.machinetestandroid.data.network.responses.Movie
+import com.example.machinetestandroid.data.network.MyApiService
+import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
+import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.databinding.MovieListFragmentBinding
-import com.example.machinetestandroid.util.Coroutines
-import com.ransoft.androidpaging.util.NoInternetException
-import com.ransoft.androidpaging.util.toast
-import java.lang.Exception
-import java.security.acl.Owner
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieListFragment : Fragment(), MovieListInterface {
 
-    @Inject
-    lateinit var viewModel: MovieListViewModel
+    @Inject lateinit var networkConnectionInterceptor: NetworkConnectionInterceptor
+    @Inject lateinit var myApiService: MyApiService
+    @Inject lateinit var movieRepository: MovieRepository
+    private val viewModel: MovieListViewModel by viewModels()
+
     private lateinit var binding: MovieListFragmentBinding
     val TAG = "MovieListFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
         viewModel.movieListInterface = this
     }
 

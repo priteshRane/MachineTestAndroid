@@ -2,8 +2,11 @@ package com.example.machinetestandroid.ui.list
 
 import android.content.Context
 import android.util.Log
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.network.responses.MovieResponse
@@ -15,8 +18,7 @@ import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
-class MovieListViewModel @Inject constructor(
-    val context: Context,
+class MovieListViewModel @ViewModelInject constructor(
     val movieRepository: MovieRepository
 ) : ViewModel() {
 
@@ -45,10 +47,10 @@ class MovieListViewModel @Inject constructor(
                 movieListInterface?.hideProgressBar()
             } catch (e: NoInternetException) {
                 Log.i(TAG, e.toString())
-                context.toast("No Internet, Please check your connection")
+                // context.toast("No Internet, Please check your connection")
             } catch (e: Exception) {
                 Log.i(TAG, e.toString())
-                context.toast("Something went wrong, Please try again!")
+                // context.toast("Something went wrong, Please try again!")
             }
         }
     }
