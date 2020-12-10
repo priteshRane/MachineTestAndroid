@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.databinding.MovieListFragmentBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MovieListFragment : Fragment() {
 
@@ -22,6 +26,7 @@ class MovieListFragment : Fragment() {
     private lateinit var viewModelFactory: MovieListViewModelFactory
     private lateinit var viewModel: MovieListViewModel
     private lateinit var binding: MovieListFragmentBinding
+    val movieAdapter: MovieAdapter = MovieAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,14 @@ class MovieListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = movieAdapter
 
-        viewModel.getMovieList()
+        lifecycleScope.launch {
+            viewModel.getMovies().collectLatest { pagingData ->
+                movieAdapter.submitData(pagingData)
+            }
+        }
     }
 }
