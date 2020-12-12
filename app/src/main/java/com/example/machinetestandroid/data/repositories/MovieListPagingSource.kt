@@ -6,7 +6,7 @@ import com.example.machinetestandroid.data.network.responses.Movie
 import retrofit2.HttpException
 import java.io.IOException
 
-class MovieListPagingSource(val myApiService: MyApiService, val query: String) : PagingSource<Int, Movie>() {
+class MovieListPagingSource(private val myApiService: MyApiService, private val query: String) : PagingSource<Int, Movie>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val position = params.key ?: 1
         return try {

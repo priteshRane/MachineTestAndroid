@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -12,10 +14,11 @@ import com.bumptech.glide.Glide
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.responses.Movie
 import kotlinx.android.synthetic.main.movie_card.view.*
+import org.w3c.dom.Text
 
 lateinit var context: Context
-class MovieAdapter :
-    PagingDataAdapter<Movie, MovieAdapter.ItemViewHolder>(
+class MovieListAdapter(private val movieListItemClickListener: MovieListItemClickListener) :
+    PagingDataAdapter<Movie, MovieListAdapter.ItemViewHolder>(
         DIFF_CALLBACK
     ) {
     override fun onCreateViewHolder(
@@ -47,15 +50,19 @@ class MovieAdapter :
             holder.rating.text = movieEntity.rating.toString()
             holder.directors.text = movieEntity.directors
             holder.duration.text = movieEntity.duration
+
+            holder.moviePoster.setOnClickListener {
+                movieListItemClickListener.onMovieClick(it, movieEntity)
+            }
         }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val moviePoster = itemView.iv_movie_poster
-        val movieName = itemView.tv_movie_name
-        val rating = itemView.tv_rating
-        val directors = itemView.tv_directors
-        val duration = itemView.tv_duration
+        val moviePoster: ImageView = itemView.iv_movie_poster
+        val movieName: TextView = itemView.tv_movie_name
+        val rating: TextView = itemView.tv_rating
+        val directors: TextView = itemView.tv_directors
+        val duration: TextView = itemView.tv_duration
     }
 
     companion object {

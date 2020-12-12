@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -66,6 +66,5 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
             tools:visibility="visible"/>
-        <!-- tools:visibility To just visible on layout-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

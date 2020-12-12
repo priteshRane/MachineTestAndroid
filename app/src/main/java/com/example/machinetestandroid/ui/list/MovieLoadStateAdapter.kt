@@ -3,19 +3,23 @@ package com.example.machinetestandroid.ui.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.machinetestandroid.R
 import kotlinx.android.synthetic.main.movie_load_state_footer.view.*
+import org.w3c.dom.Text
 
 class MovieLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<MovieLoadStateAdapter.LoadStateViewHolder>() {
 
     class LoadStateViewHolder(itemView: View, retry: () -> Unit) : RecyclerView.ViewHolder(itemView) {
-        val pbProgress = itemView.progressBar
-        val tvError = itemView.tv_error
-        val btnRetry = itemView.btn_retry
+        val pbProgress: ProgressBar = itemView.pb_progress
+        val tvError: TextView = itemView.tv_retry
+        val btnRetry: Button = itemView.btn_retry
 
         init {
             btnRetry.setOnClickListener {
@@ -32,7 +36,7 @@ class MovieLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<Mo
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
         context = parent.context
-        return MovieLoadStateAdapter.LoadStateViewHolder(
+        return LoadStateViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.movie_load_state_footer, parent, false), retry
         )

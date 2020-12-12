@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
+import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.databinding.MovieListFragmentBinding
 import kotlinx.android.synthetic.main.movie_list_fragment.*
@@ -21,16 +24,12 @@ import kotlinx.android.synthetic.main.movie_load_state_footer.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MovieListFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MovieListFragment()
-    }
+class MovieListFragment : Fragment(), MovieListItemClickListener {
 
     private lateinit var viewModelFactory: MovieListViewModelFactory
     private lateinit var viewModel: MovieListViewModel
     private lateinit var binding: MovieListFragmentBinding
-    val movieAdapter: MovieAdapter = MovieAdapter()
+    val movieListAdapter: MovieListAdapter = MovieListAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +37,8 @@ class MovieListFragment : Fragment() {
         val myApiService = MyApiService(networkConnectionInterceptor)
         val movieRepository = MovieRepository(myApiService)
 
-         viewModelFactory = MovieListViewModelFactory(movieRepository)
-         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
+        viewModelFactory = MovieListViewModelFactory(movieRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -52,42 +51,42 @@ class MovieListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.itemAnimator = null
-        binding.recyclerView.adapter = movieAdapter.withLoadStateHeaderAndFooter(
-            header = MovieLoadStateAdapter { movieAdapter.retry() },
-            footer = MovieLoadStateAdapter { movieAdapter.retry() }
-        )
-        binding.btnRetry.setOnClickListener {
-            movieAdapter.retry()
+        binding.rvMovie.apply {
+            this.setHasFixedSize(true)
+            this.itemAnimator = null
+            this.adapter = movieListAdapter.withLoadStateHeaderAndFooter(
+                header = MovieLoadStateAdapter { movieListAdapter.retry() },
+                footer = MovieLoadStateAdapter { movieListAdapter.retry() }
+            )
         }
 
-// Flow is still experimental
-//        lifecycleScope.launch {
-//            viewModel.getMovies().collectLatest { pagingData ->
-//                movieAdapter.submitData(pagingData)
-//            }
-//        }
+        binding.btnRetry.setOnClickListener {
+            movieListAdapter.retry()
+        }
 
         viewModel.movies.observe(viewLifecycleOwner) {
-            movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            movieListAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
-        movieAdapter.addLoadStateListener { loadState ->
+        movieListAdapter.addLoadStateListener { loadState ->
             binding.apply {
-                pb_progress.isVisible = loadState.source.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                pbProgress.isVisible = loadState.source.refresh is LoadState.Loading
+                rvMovie.isVisible = loadState.source.refresh is LoadState.NotLoading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error
-                tv_retry.isVisible = loadState.source.refresh is LoadState.Error
+                tvRetry.isVisible = loadState.source.refresh is LoadState.Error
 
-                // empty view
-                if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && movieAdapter.itemCount < 1) {
-                    recyclerView.isVisible = false
+                if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && movieListAdapter.itemCount < 1) {
+                    rvMovie.isVisible = false
                     tvNoResult.isVisible = true
                 } else {
                     tvNoResult.isVisible = false
                 }
             }
         }
+    }
+
+    override fun onMovieClick(view: View, movie: Movie) {
+        val action = MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(movie)
+        Navigation.findNavController(view).navigate(action)
     }
 }
