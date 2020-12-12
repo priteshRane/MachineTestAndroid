@@ -7,8 +7,9 @@ import androidx.paging.liveData
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.responses.Movie
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MovieRepository(private val myApiService: MyApiService) {
+class MovieRepository @Inject constructor(private val myApiService: MyApiService) {
     fun getMovies(query: String) =
         Pager(
             config = PagingConfig(

@@ -1,6 +1,5 @@
 package com.example.machinetestandroid.ui.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,37 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.databinding.MovieListFragmentBinding
-import kotlinx.android.synthetic.main.movie_list_fragment.*
-import kotlinx.android.synthetic.main.movie_load_state_footer.*
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieListFragment : Fragment(), MovieListItemClickListener {
 
-    private lateinit var viewModelFactory: MovieListViewModelFactory
-    private lateinit var viewModel: MovieListViewModel
+    @Inject lateinit var networkConnectionInterceptor: NetworkConnectionInterceptor
+    @Inject lateinit var myApiService: MyApiService
+    @Inject lateinit var movieRepository: MovieRepository
+
+    private val viewModel: MovieListViewModel by viewModels()
+
     private lateinit var binding: MovieListFragmentBinding
-    val movieListAdapter: MovieListAdapter = MovieListAdapter(this)
+    lateinit var movieListAdapter: MovieListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val networkConnectionInterceptor = NetworkConnectionInterceptor(requireContext())
-        val myApiService = MyApiService(networkConnectionInterceptor)
-        val movieRepository = MovieRepository(myApiService)
-
-        viewModelFactory = MovieListViewModelFactory(movieRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
+        movieListAdapter = MovieListAdapter(this)
     }
 
     override fun onCreateView(

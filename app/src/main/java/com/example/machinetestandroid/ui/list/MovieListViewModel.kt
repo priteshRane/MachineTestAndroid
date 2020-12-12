@@ -1,10 +1,11 @@
 package com.example.machinetestandroid.ui.list
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.example.machinetestandroid.data.repositories.MovieRepository
 
-class MovieListViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class MovieListViewModel @ViewModelInject constructor(private val movieRepository: MovieRepository) : ViewModel() {
     val TAG = "MovieListViewModel"
 
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
