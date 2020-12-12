@@ -1,5 +1,9 @@
 package com.example.machinetestandroid.data.network.responses
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
     var _id: String?,
     var name: String?,
@@ -16,4 +20,4 @@ data class Movie(
     var createdAt: String?,
     var updatedAt: String?,
     var _v: Int?
-)
+) : Parcelable

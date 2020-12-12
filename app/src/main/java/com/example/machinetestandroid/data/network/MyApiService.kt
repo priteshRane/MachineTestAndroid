@@ -2,6 +2,7 @@ package com.example.machinetestandroid.data.network
 
 import com.example.machinetestandroid.data.network.responses.MovieResponse
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,7 +24,7 @@ class MyApiService(val networkConnectionInterceptor: NetworkConnectionIntercepto
     override suspend fun movieResponse(
         page: Int,
         pageSize: Int
-    ): retrofit2.Response<MovieResponse> {
+    ): Response<MovieResponse> {
         return api.movieResponse(page, pageSize)
     }
 }

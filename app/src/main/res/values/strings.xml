@@ -4,4 +4,8 @@
     <string name="rating">Rating</string>
     <string name="directors">Directors</string>
     <string name="duration">Duration</string>
+    <string name="retry">Retry</string>
+    <string name="retry_message">Results could not be loaded</string>
+    <string name="no_result_message">No results found for this query</string>
+    <string name="load_error_message">Results could not be loaded</string>
 </resources>

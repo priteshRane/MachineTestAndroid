@@ -33,17 +33,21 @@ class MovieAdapter :
         holder: ItemViewHolder,
         position: Int
     ) {
-        val movieEntity: Movie = getItem(position)!!
-        Glide
-            .with(context)
-            .load(movieEntity.posterUrl)
-            .centerCrop()
-            .into(holder.moviePoster);
+        val currentItem = getItem(position)
 
-        holder.movieName.text = movieEntity.name
-        holder.rating.text = movieEntity.rating.toString()
-        holder.directors.text = movieEntity.directors
-        holder.duration.text = movieEntity.duration
+        if (currentItem != null) {
+            val movieEntity: Movie = currentItem
+            Glide
+                .with(context)
+                .load(movieEntity.posterUrl)
+                .centerCrop()
+                .into(holder.moviePoster);
+
+            holder.movieName.text = movieEntity.name
+            holder.rating.text = movieEntity.rating.toString()
+            holder.directors.text = movieEntity.directors
+            holder.duration.text = movieEntity.duration
+        }
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
