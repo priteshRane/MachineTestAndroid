@@ -10,9 +10,7 @@ import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.util.Coroutines
 import com.example.machinetestandroid.util.NoInternetException
 import com.example.machinetestandroid.util.toast
-import javax.inject.Inject
-
-class MovieListViewModel @Inject constructor(val context: Context, val movieRepository: MovieRepository) : ViewModel() {
+class MovieListViewModel constructor(private val context: Context, private val movieRepository: MovieRepository) : ViewModel() {
 
     val TAG = "MovieListViewModel"
     var movieListInterface: MovieListInterface? = null

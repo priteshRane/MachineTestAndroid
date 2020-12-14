@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.machinetestandroid.data.repository.MovieRepository
 import java.lang.IllegalArgumentException
 
-class MovieListViewModelFactory(val context: Context, val movieRepository: MovieRepository) : ViewModelProvider.Factory {
+class MovieListViewModelFactory(private val context: Context, private val movieRepository: MovieRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MovieListViewModel::class.java)) {
             return MovieListViewModel(context, movieRepository) as T
