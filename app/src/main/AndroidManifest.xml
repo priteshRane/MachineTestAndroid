@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MachineTestAndroid">
-        <activity android:name=".ui.recyclerview.details.DetailsActivity"></activity>
+        <activity android:name=".ui.recyclerview.details.RecyclerViewDetailsActivity"></activity>
+        <activity android:name=".ui.recyclerview.list.RecyclerViewListActivity" />
+        <activity android:name=".ui.recyclerview.details.DetailsActivity" />
         <activity android:name=".ui.recyclerview.list.ListActivity" />
-        <activity android:name=".ui.recyclerview.list.MovieListActivity" />
         <activity android:name=".ui.basic.details.MovieDetailsActivity" />
         <activity android:name=".ui.basic.list.MovieListActivity" />
         <activity android:name=".MainActivity">

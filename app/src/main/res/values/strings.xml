@@ -3,4 +3,9 @@
     <string name="basic_example">Basic Example</string>
     <string name="go_to_next_page">Go to next page</string>
     <string name="welcome_to_details_page">Welcome to Details Page</string>
+    <string name="movie_name">Movie name</string>
+    <string name="rating">Rating</string>
+    <string name="directors">Directors</string>
+    <string name="duration">Duration</string>
+    <string name="recyclerview_example">RecyclerView Example</string>
 </resources>
