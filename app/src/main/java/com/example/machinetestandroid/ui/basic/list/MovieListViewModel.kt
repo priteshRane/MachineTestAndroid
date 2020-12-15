@@ -30,7 +30,7 @@ class MovieListViewModel constructor(private val context: Context, private val m
         Coroutines.main {
             try {
                 movieListInterface?.showProgressBar()
-                val movieResponse = movieRepository.getMovies(1, 10)
+                val movieResponse = movieRepository.getMoviesFromApi(1, 10)
                 if (movieResponse.isSuccessful) {
                     _movies.value = movieResponse.body()?.movie
                 }

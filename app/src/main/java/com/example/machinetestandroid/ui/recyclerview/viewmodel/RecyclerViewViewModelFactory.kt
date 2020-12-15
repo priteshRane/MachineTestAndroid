@@ -3,6 +3,7 @@ package com.example.machinetestandroid.ui.recyclerview.list
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.ui.recyclerview.viewmodel.RecyclerViewViewModel
 import java.lang.IllegalArgumentException

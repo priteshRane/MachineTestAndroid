@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
+import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.network.responses.Movie
@@ -29,7 +30,8 @@ class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface,
 
         val networkConnectionInterceptor = NetworkConnectionInterceptor(this)
         val myApiService = MyApiService(networkConnectionInterceptor)
-        val movieRepository = MovieRepository(myApiService)
+        val appDataBase = AppDatabase.getInstance(this)
+        val movieRepository = MovieRepository(myApiService, appDataBase)
 
         viewModelFactory = RecyclerViewViewModelFactory(this, movieRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(RecyclerViewViewModel::class.java)

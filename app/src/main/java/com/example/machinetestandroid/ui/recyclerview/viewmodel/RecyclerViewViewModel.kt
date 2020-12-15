@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.ui.recyclerview.list.RecyclerViewListInterface
@@ -34,11 +35,10 @@ class RecyclerViewViewModel constructor(
         Coroutines.main {
             try {
                 movieListInterface?.showProgressBar()
-                val movieResponse = movieRepository.getMovies(1, 10)
-                if (movieResponse.isSuccessful) {
-                    _movies.value = movieResponse.body()?.movie
-                    movieListInterface?.hideProgressBar()
-                }
+                val movieResponse = movieRepository.getMoviesFromApiThenDatabase(1, 10)
+                _movies.value = movieResponse
+                movieListInterface?.hideProgressBar()
+
             } catch (e: NoInternetException) {
                 Log.i(TAG, e.toString())
                 context.toast("No Internet, Please check your connection")

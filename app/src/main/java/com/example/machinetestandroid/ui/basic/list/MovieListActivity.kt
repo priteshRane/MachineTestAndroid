@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.machinetestandroid.R
+import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.repository.MovieRepository
@@ -26,7 +27,8 @@ class MovieListActivity : AppCompatActivity(), MovieListInterface {
         super.onCreate(savedInstanceState)
         val networkConnectionInterceptor = NetworkConnectionInterceptor(this)
         val myApiService = MyApiService(networkConnectionInterceptor)
-        val movieRepository = MovieRepository(myApiService)
+        val appDataBase = AppDatabase.getInstance(this)
+        val movieRepository = MovieRepository(myApiService, appDataBase)
 
         viewModelFactory = MovieListViewModelFactory(this, movieRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieListViewModel::class.java)
