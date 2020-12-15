@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
 import com.example.machinetestandroid.data.network.MyApiService
@@ -13,13 +14,12 @@ import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.network.responses.Movie
 import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.databinding.ActivityRecyclerviewListBinding
-import com.example.machinetestandroid.ui.basic.list.MovieListViewModelFactory
 import com.example.machinetestandroid.ui.recyclerview.details.RecyclerViewDetailsActivity
 import com.example.machinetestandroid.ui.recyclerview.viewmodel.RecyclerViewViewModel
 
 class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface, RecyclerViewClickInterface {
 
-    lateinit var viewModelFactory: RecyclerViewListViewModelFactory
+    lateinit var viewModelFactory: RecyclerViewViewModelFactory
     lateinit var viewModel: RecyclerViewViewModel
     lateinit var binding: ActivityRecyclerviewListBinding
     private val movieListAdapter = RecyclerViewListAdapter(this)
@@ -31,8 +31,8 @@ class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface,
         val myApiService = MyApiService(networkConnectionInterceptor)
         val movieRepository = MovieRepository(myApiService)
 
-        viewModelFactory = RecyclerViewListViewModelFactory(this, movieRepository)
-        viewModel = RecyclerViewViewModel(this, movieRepository)
+        viewModelFactory = RecyclerViewViewModelFactory(this, movieRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecyclerViewViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recyclerview_list)
 
         viewModel.movieListInterface = this

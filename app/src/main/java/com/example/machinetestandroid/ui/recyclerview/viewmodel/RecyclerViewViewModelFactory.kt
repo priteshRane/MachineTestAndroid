@@ -7,9 +7,9 @@ import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.ui.recyclerview.viewmodel.RecyclerViewViewModel
 import java.lang.IllegalArgumentException
 
-class RecyclerViewListViewModelFactory(private val context: Context, private val movieRepository: MovieRepository) : ViewModelProvider.Factory {
+class RecyclerViewViewModelFactory(private val context: Context, private val movieRepository: MovieRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(RecyclerViewListActivity::class.java)) {
+        if (modelClass.isAssignableFrom(RecyclerViewViewModel::class.java)) {
             return RecyclerViewViewModel(context, movieRepository) as T
         }
 
