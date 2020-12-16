@@ -1,6 +1,9 @@
 package com.example.machinetestandroid.data.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.responses.Movie
@@ -26,4 +29,13 @@ class MovieRepository constructor(private val myApiService: MyApiService, privat
     suspend fun deleteMoviesFromDatabase() {
         appDatabase.movieDao().deleteAllMovies()
     }
+
+    fun getMoviesFromPagingSource(query: String) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { Paging3ListPagingSource(myApiService, query) }
+        ).liveData
 }

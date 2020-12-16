@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_mainFragment_to_recyclerViewListFragment"
             app:destination="@id/recyclerViewListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_paging3ListFragment"
+            app:destination="@id/paging3ListFragment" />
     </fragment>
     <fragment
         android:id="@+id/endlessRecyclerViewListFragment"
@@ -69,6 +72,24 @@
         android:name="com.example.machinetestandroid.ui.recyclerview.details.RecyclerViewDetailsFragment"
         android:label="RecyclerViewDetailsFragment"
         tools:layout="@layout/fragment_recycler_view_details">
+        <argument
+            android:name="movie"
+            app:argType="com.example.machinetestandroid.data.network.responses.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/paging3ListFragment"
+        android:name="com.example.machinetestandroid.ui.paging3.list.Paging3ListFragment"
+        android:label="Paging3ListFragment"
+        tools:layout="@layout/fragment_paging3_list">
+        <action
+            android:id="@+id/action_paging3ListFragment_to_paging3DetailsFragment"
+            app:destination="@id/paging3DetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paging3DetailsFragment"
+        android:name="com.example.machinetestandroid.ui.paging3.details.Paging3DetailsFragment"
+        android:label="Paging3DetailsFragment"
+        tools:layout="@layout/fragment_paging3_details">
         <argument
             android:name="movie"
             app:argType="com.example.machinetestandroid.data.network.responses.Movie" />

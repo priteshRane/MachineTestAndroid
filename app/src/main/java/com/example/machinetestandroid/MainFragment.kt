@@ -39,7 +39,8 @@ class MainFragment : Fragment() {
         }
 
         binding.btnGoToPaging3.setOnClickListener {
-
+            val action = MainFragmentDirections.actionMainFragmentToPaging3ListFragment()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 }
