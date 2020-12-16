@@ -8,4 +8,5 @@
     <string name="directors">Directors</string>
     <string name="duration">Duration</string>
     <string name="recyclerview_example">RecyclerView Example</string>
+    <string name="endless_recyclerview_example">Endless RecyclerView Example</string>
 </resources>
