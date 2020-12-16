@@ -24,7 +24,8 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.btnGoToBasicApiCallingExample.setOnClickListener {
-
+            val action = MainFragmentDirections.actionMainFragmentToBasicListFragment()
+            Navigation.findNavController(it).navigate(action)
         }
 
         binding.btnGoToRecyclerview.setOnClickListener {

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_mainFragment_to_endlessRecyclerViewListFragment"
             app:destination="@id/endlessRecyclerViewListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_basicListFragment"
+            app:destination="@id/basicListFragment" />
     </fragment>
     <fragment
         android:id="@+id/endlessRecyclerViewListFragment"
@@ -27,6 +30,24 @@
         android:name="com.example.machinetestandroid.ui.endlessrecyclerview.details.EndlessRecyclerViewDetailsFragment"
         android:label="EndlessRecyclerViewDetailsFragment"
         tools:layout="@layout/fragment_endless_recycler_view_details">
+        <argument
+            android:name="movie"
+            app:argType="com.example.machinetestandroid.data.network.responses.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/basicListFragment"
+        android:name="com.example.machinetestandroid.ui.basic.list.BasicListFragment"
+        android:label="BasicListFragment"
+        tools:layout="@layout/fragment_basic_list">
+        <action
+            android:id="@+id/action_basicListFragment_to_basicDetailsFragment"
+            app:destination="@id/basicDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/basicDetailsFragment"
+        android:name="com.example.machinetestandroid.ui.basic.details.BasicDetailsFragment"
+        android:label="BasicDetailsFragment"
+        tools:layout="@layout/fragment_basic_details">
         <argument
             android:name="movie"
             app:argType="com.example.machinetestandroid.data.network.responses.Movie" />
