@@ -9,11 +9,11 @@
         tools:context=".MainActivity">
 
         <Button
-            android:id="@+id/btn_go_to_basic_example"
+            android:id="@+id/btn_go_to_basic_api_calling_example"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/basic_example"
+            android:text="@string/basic_api_calling_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
             android:text="@string/recyclerview_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_go_to_basic_example" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_go_to_basic_api_calling_example" />
 
         <Button
             android:id="@+id/btn_go_to_endless_recyclerview"
@@ -37,5 +37,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_go_to_recyclerview" />
+
+        <Button
+            android:id="@+id/btn_go_to_paging3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/paging3_example"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_go_to_endless_recyclerview" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

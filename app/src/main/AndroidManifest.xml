@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MachineTestAndroid">
-        <activity android:name=".ui.endlessrecyclerview.list.EndlessRecyclerViewListActivity"></activity>
+        <activity android:name=".ui.paging3.list.Paging3ListActivity"></activity>
+        <activity android:name=".ui.paging3.details.Paging3DetailsActivity" />
+        <activity android:name=".ui.endlessrecyclerview.list.EndlessRecyclerViewListActivity" />
         <activity android:name=".ui.endlessrecyclerview.details.EndlessRecyclerViewDetailsActivity" />
         <activity android:name=".ui.recyclerview.details.RecyclerViewDetailsActivity" />
         <activity android:name=".ui.recyclerview.list.RecyclerViewListActivity" />

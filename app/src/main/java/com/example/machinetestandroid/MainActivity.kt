@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.machinetestandroid.databinding.ActivityMainBinding
 import com.example.machinetestandroid.ui.basic.list.MovieListActivity
 import com.example.machinetestandroid.ui.endlessrecyclerview.list.EndlessRecyclerViewListActivity
+import com.example.machinetestandroid.ui.paging3.list.Paging3ListActivity
 import com.example.machinetestandroid.ui.recyclerview.list.RecyclerViewListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.btnGoToBasicExample.setOnClickListener {
+        binding.btnGoToBasicApiCallingExample.setOnClickListener {
             val intent = Intent(this, MovieListActivity::class.java)
             startActivity(intent)
         }
@@ -27,6 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGoToEndlessRecyclerview.setOnClickListener {
             val intent = Intent(this, EndlessRecyclerViewListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnGoToPaging3.setOnClickListener {
+            val intent = Intent(this, Paging3ListActivity::class.java)
             startActivity(intent)
         }
     }
