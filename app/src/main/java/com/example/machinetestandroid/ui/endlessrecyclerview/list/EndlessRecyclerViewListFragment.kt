@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetestandroid.R
+import com.example.machinetestandroid.data.db.AppDatabase
 import com.example.machinetestandroid.data.network.MyApiService
 import com.example.machinetestandroid.data.network.NetworkConnectionInterceptor
 import com.example.machinetestandroid.data.network.responses.Movie
@@ -31,8 +32,8 @@ class EndlessRecyclerViewListFragment : Fragment(), EndlessRecyclerViewClickInte
         super.onCreate(savedInstanceState)
         val networkConnectionInterceptor = NetworkConnectionInterceptor(requireContext())
         val myApiService = MyApiService(networkConnectionInterceptor)
-        // val appDataBase = AppDatabase.getInstance(this)
-        val movieRepository = MovieRepository(myApiService)
+        val appDataBase = AppDatabase.getInstance(requireContext())
+        val movieRepository = MovieRepository(myApiService, appDataBase)
 
         viewModelFactory = EndlessRecyclerViewViewModelFactory(requireContext(), movieRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(EndlessRecyclerViewViewModel::class.java)
