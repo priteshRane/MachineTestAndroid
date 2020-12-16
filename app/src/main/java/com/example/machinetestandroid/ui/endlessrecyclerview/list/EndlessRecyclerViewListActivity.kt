@@ -22,6 +22,9 @@ import com.example.machinetestandroid.ui.endlessrecyclerview.viewmodel.EndlessRe
 import com.example.machinetestandroid.ui.recyclerview.details.RecyclerViewDetailsActivity
 import com.example.machinetestandroid.ui.recyclerview.list.RecyclerViewViewModelFactory
 import com.example.machinetestandroid.ui.recyclerview.viewmodel.RecyclerViewViewModel
+import com.example.machinetestandroid.util.Coroutines
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 
 class EndlessRecyclerViewListActivity : AppCompatActivity(), EndlessRecyclerViewClickInterface {
 
@@ -53,15 +56,18 @@ class EndlessRecyclerViewListActivity : AppCompatActivity(), EndlessRecyclerView
         viewModel.getMovieList()
         viewModel.movies.observe(this, Observer { movies ->
             endlessRecyclerViewListAdapter.notifyDataSetChanged()
-            endlessRecyclerViewListAdapter.addMovies(movies)
+            endlessRecyclerViewListAdapter.addAllMovies(movies)
         })
 
         binding.recyclerView.addOnScrollListener(object :
             EndlessRecyclerViewScrollListener(layoutManager) {
             override fun loadMoreItems() {
-                viewModel.isLoadingMovies = true
-                viewModel.page += 1
-                viewModel.getMovieList()
+//                Coroutines.io {
+//                    delay(5000)
+                    viewModel.isLoadingMovies = true
+                    viewModel.page += 1
+                    viewModel.getMovieList()
+//                }
             }
 
             override val totalPageCount: Int

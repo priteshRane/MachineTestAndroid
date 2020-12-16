@@ -37,9 +37,7 @@ class EndlessRecyclerViewViewModel(private val context: Context, private val mov
                 val movieResponse = movieRepository.getMoviesFromApi(page, PAGE_SIZE)
                 if (movieResponse.isSuccessful) {
                     totalPages = movieResponse.body()?.totalPages!!
-
                     _movies.value = movieResponse.body()?.movie!!
-
                     isLoadingMovies = false
 
                     if (page == totalPages) {
