@@ -29,7 +29,8 @@ class MainFragment : Fragment() {
         }
 
         binding.btnGoToRecyclerview.setOnClickListener {
-
+            val action = MainFragmentDirections.actionMainFragmentToRecyclerViewListFragment()
+            Navigation.findNavController(it).navigate(action)
         }
 
         binding.btnGoToEndlessRecyclerview.setOnClickListener {
