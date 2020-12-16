@@ -17,8 +17,10 @@ import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.databinding.ActivityRecyclerviewListBinding
 import com.example.machinetestandroid.ui.recyclerview.details.RecyclerViewDetailsActivity
 import com.example.machinetestandroid.ui.recyclerview.viewmodel.RecyclerViewViewModel
+import com.example.machinetestandroid.util.Coroutines
 
-class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface, RecyclerViewClickInterface {
+class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface,
+    RecyclerViewClickInterface {
 
     lateinit var viewModelFactory: RecyclerViewViewModelFactory
     lateinit var viewModel: RecyclerViewViewModel
@@ -43,11 +45,11 @@ class RecyclerViewListActivity : AppCompatActivity(), RecyclerViewListInterface,
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
         }
-
-        viewModel.getMovieList()
-        viewModel.movies.observe(this, Observer { movies ->
-            binding.recyclerView.adapter = movieListAdapter.also { it.addMovies(movies) }
-        })
+        Coroutines.main {
+            viewModel.movie.await().observe(this, Observer { movies ->
+                binding.recyclerView.adapter = movieListAdapter.also { it.addMovies(movies) }
+            })
+        }
     }
 
     override fun onMovieItemClick(view: View, movie: Movie) {

@@ -11,34 +11,45 @@ import com.example.machinetestandroid.data.repository.MovieRepository
 import com.example.machinetestandroid.ui.recyclerview.list.RecyclerViewListInterface
 import com.example.machinetestandroid.util.Coroutines
 import com.example.machinetestandroid.util.NoInternetException
+import com.example.machinetestandroid.util.lazyDeferred
 import com.example.machinetestandroid.util.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RecyclerViewViewModel constructor(
     private val context: Context,
     private val movieRepository: MovieRepository
 ) : ViewModel() {
-    val TAG = "MovieListViewModel"
+    val TAG = "RecyclerViewViewModel"
     var movieListInterface: RecyclerViewListInterface? = null
     private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>>
-        get() = _movies
+    val movie by lazyDeferred {
+        getMovieList()
+    }
 
-    fun getMovieList(): LiveData<List<Movie>> {
-        Log.i(TAG, "Get Movies")
-        if (movies.value.isNullOrEmpty()) {
-            getMoviesFromRepository()
+    init {
+        _movies.observeForever {
+            addMovies(it)
         }
-        return movies
+    }
+
+    private suspend fun getMovieList(): LiveData<List<Movie>> {
+        return withContext(Dispatchers.IO) {
+            deleteMovies()
+            getMoviesFromRepository()
+            movieRepository.getMoviesFromDatabase()
+        }
     }
 
     private fun getMoviesFromRepository() {
         Coroutines.main {
             try {
                 movieListInterface?.showProgressBar()
-                val movieResponse = movieRepository.getMoviesFromApiThenDatabase(1, 10)
-                _movies.value = movieResponse
+                val movieResponse = movieRepository.getMoviesFromApi(1, 10)
+                if (movieResponse.isSuccessful) {
+                    _movies.postValue(movieResponse.body()?.movie)
+                }
                 movieListInterface?.hideProgressBar()
-
             } catch (e: NoInternetException) {
                 Log.i(TAG, e.toString())
                 context.toast("No Internet, Please check your connection")
@@ -46,6 +57,18 @@ class RecyclerViewViewModel constructor(
                 Log.i(TAG, e.toString())
                 context.toast("Something went wrong, Please try again!")
             }
+        }
+    }
+
+    private fun addMovies(movie: List<Movie>) {
+        Coroutines.io {
+            movieRepository.addMoviesToDatabase(movie)
+        }
+    }
+
+    fun deleteMovies() {
+        Coroutines.io {
+            movieRepository.deleteMoviesFromDatabase()
         }
     }
 }
