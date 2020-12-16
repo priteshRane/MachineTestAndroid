@@ -1,24 +1,17 @@
-package com.example.machinetestandroid.ui.list
+package com.example.machinetestandroid.ui.endlessrecyclerview.viewmodel
 
 import android.content.Context
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.machinetestandroid.data.network.responses.Movie
-import com.example.machinetestandroid.data.network.responses.MovieResponse
 import com.example.machinetestandroid.data.repositories.MovieRepository
 import com.example.machinetestandroid.util.Coroutines
 import com.example.machinetestandroid.util.NoInternetException
 import com.example.machinetestandroid.util.toast
-import retrofit2.Response
-import javax.inject.Inject
 
-class MovieListViewModel @Inject constructor(
-    val context: Context,
-    val movieRepository: MovieRepository
-) : ViewModel() {
+class EndlessRecyclerViewViewModel(private val context: Context, private val movieRepository: MovieRepository) : ViewModel() {
     val TAG = "ListViewModel"
     val PAGE_SIZE = 10
     var totalPages = 0
@@ -41,12 +34,10 @@ class MovieListViewModel @Inject constructor(
     private fun getMoviesFromRepository() {
         Coroutines.main {
             try {
-                val movieResponse = movieRepository.getMovies(page, PAGE_SIZE)
+                val movieResponse = movieRepository.getMoviesFromApi(page, PAGE_SIZE)
                 if (movieResponse.isSuccessful) {
                     totalPages = movieResponse.body()?.totalPages!!
-
                     _movies.value = movieResponse.body()?.movie!!
-
                     isLoadingMovies = false
 
                     if (page == totalPages) {

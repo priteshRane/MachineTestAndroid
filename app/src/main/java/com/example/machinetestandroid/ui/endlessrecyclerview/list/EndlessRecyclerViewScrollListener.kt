@@ -1,10 +1,10 @@
-package com.example.machinetestandroid.ui.list
+package com.example.machinetestandroid.ui.endlessrecyclerview.list
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class MoviePaginationScrollListener(var layoutManager: LinearLayoutManager) :
+abstract class EndlessRecyclerViewScrollListener(var layoutManager: LinearLayoutManager) :
     RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
