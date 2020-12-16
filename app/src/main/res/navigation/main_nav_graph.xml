@@ -3,7 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/endlessRecyclerViewListFragment">
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.machinetestandroid.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_endlessRecyclerViewListFragment"
+            app:destination="@id/endlessRecyclerViewListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/endlessRecyclerViewListFragment"
         android:name="com.example.machinetestandroid.ui.endlessrecyclerview.list.EndlessRecyclerViewListFragment"
@@ -16,8 +25,8 @@
     <fragment
         android:id="@+id/endlessRecyclerViewDetailsFragment"
         android:name="com.example.machinetestandroid.ui.endlessrecyclerview.details.EndlessRecyclerViewDetailsFragment"
-        android:label="fragment_endless_recycler_view_details"
-        tools:layout="@layout/fragment_endless_recycler_view_details" >
+        android:label="EndlessRecyclerViewDetailsFragment"
+        tools:layout="@layout/fragment_endless_recycler_view_details">
         <argument
             android:name="movie"
             app:argType="com.example.machinetestandroid.data.network.responses.Movie" />

@@ -1,0 +1,43 @@
+package com.example.machinetestandroid
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import com.example.machinetestandroid.databinding.FragmentMainBinding
+
+class MainFragment : Fragment() {
+
+    lateinit var binding: FragmentMainBinding
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.btnGoToBasicApiCallingExample.setOnClickListener {
+
+        }
+
+        binding.btnGoToRecyclerview.setOnClickListener {
+
+        }
+
+        binding.btnGoToEndlessRecyclerview.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToEndlessRecyclerViewListFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+
+        binding.btnGoToPaging3.setOnClickListener {
+
+        }
+    }
+}

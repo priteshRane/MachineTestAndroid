@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">Machine Test Android</string>
+    <string name="basic_api_calling_example">Basic API Calling Example</string>
+    <string name="go_to_next_page">Go to next page</string>
+    <string name="welcome_to_details_page">Welcome to Details Page</string>
     <string name="movie_name">Movie name</string>
     <string name="rating">Rating</string>
     <string name="directors">Directors</string>
     <string name="duration">Duration</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recyclerview_example">RecyclerView Example</string>
+    <string name="endless_recyclerview_example">Endless RecyclerView Example</string>
+    <string name="retry">Retry</string>
+    <string name="retry_message">Results could not be loaded</string>
+    <string name="no_result_message">No results found for this query</string>
+    <string name="load_error_message">Results could not be loaded</string>
+    <string name="paging3_example">Paging3 Example</string>
 </resources>
