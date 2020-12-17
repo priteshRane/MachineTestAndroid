@@ -6,7 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.example.machinetestandroid.databinding.FragmentMainBinding
+import com.example.machinetestandroid.ui.basic.details.BasicDetailsFragment
+import com.example.machinetestandroid.ui.basic.list.BasicListFragment
+import com.example.machinetestandroid.ui.endlessrecyclerview.list.EndlessRecyclerViewListFragment
+import com.example.machinetestandroid.ui.paging3.list.Paging3ListFragment
+import com.example.machinetestandroid.ui.recyclerview.list.RecyclerViewListFragment
 
 class MainFragment : Fragment() {
 
@@ -22,15 +29,35 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.btnGoToBasicApiCallingExample.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<BasicListFragment>(R.id.fragment_container_view)
+                setReorderingAllowed(true)
+                addToBackStack("BasicListFragment")
+            }
         }
 
         binding.btnGoToRecyclerview.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<RecyclerViewListFragment>(R.id.fragment_container_view)
+                setReorderingAllowed(true)
+                addToBackStack("RecyclerViewListFragment")
+            }
         }
 
         binding.btnGoToEndlessRecyclerview.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<EndlessRecyclerViewListFragment>(R.id.fragment_container_view)
+                setReorderingAllowed(true)
+                addToBackStack("EndlessRecyclerViewListFragment")
+            }
         }
 
         binding.btnGoToPaging3.setOnClickListener {
+            parentFragmentManager.commit {
+                replace<Paging3ListFragment>(R.id.fragment_container_view)
+                setReorderingAllowed(true)
+                addToBackStack("Paging3ListFragment")
+            }
         }
     }
 }

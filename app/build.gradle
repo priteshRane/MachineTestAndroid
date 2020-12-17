@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -54,9 +55,10 @@ dependencies {
     def retrofit_version = "2.9.0"
     def lifecycle_version = "2.2.0"
     def coroutine_version = "1.4.1"
-    def recyclerView_version = "1.1.0"
     def glide_version = "4.11.0"
     def fragment_version = "1.2.5"
+    def room_version = "2.2.5"
+    def paging_version = "3.0.0-alpha10"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -69,14 +71,18 @@ dependencies {
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
 
-    // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:$recyclerView_version"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
-
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     // Fragment
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // Paging 3
+    implementation "androidx.paging:paging-runtime:$paging_version"
 }
