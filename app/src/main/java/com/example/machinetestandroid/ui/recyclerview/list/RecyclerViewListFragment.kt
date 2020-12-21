@@ -38,7 +38,6 @@ class RecyclerViewListFragment : Fragment(), RecyclerViewListInterface, Recycler
         viewModelFactory = RecyclerViewViewModelFactory(requireContext(), movieRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(RecyclerViewViewModel::class.java)
         viewModel.recyclerViewListInterface = this
-        recylerViewListAdapter = RecyclerViewListAdapter(this)
     }
 
     override fun onCreateView(
@@ -52,6 +51,7 @@ class RecyclerViewListFragment : Fragment(), RecyclerViewListInterface, Recycler
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        recylerViewListAdapter = RecyclerViewListAdapter(this)
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(requireContext())
             it.setHasFixedSize(true)
