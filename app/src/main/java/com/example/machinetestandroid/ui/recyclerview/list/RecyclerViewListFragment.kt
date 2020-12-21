@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Observer
@@ -79,7 +80,7 @@ class RecyclerViewListFragment : Fragment(), RecyclerViewListInterface, Recycler
             val bundle = Bundle()
             bundle.putParcelable("movie", movie)
 
-            replace<RecyclerViewDetailsFragment>(R.id.fragment_container_view, "RecyclerViewDetailsFragmentTag", bundle)
+            add<RecyclerViewDetailsFragment>(R.id.fragment_container_view, "RecyclerViewDetailsFragmentTag", bundle)
             setReorderingAllowed(true)
             addToBackStack("RecyclerViewDetailsFragment")
         }

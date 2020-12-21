@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
@@ -90,7 +91,7 @@ class Paging3ListFragment : Fragment(), Paging3ListItemClickListener {
             val bundle = Bundle()
             bundle.putParcelable("movie", movie)
 
-            replace<Paging3DetailsFragment>(R.id.fragment_container_view, "Paging3DetailsFragmentTag", bundle)
+            add<Paging3DetailsFragment>(R.id.fragment_container_view, "Paging3DetailsFragmentTag", bundle)
             setReorderingAllowed(true)
             addToBackStack("Paging3DetailsFragment")
         }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Observer
@@ -93,7 +94,7 @@ class EndlessRecyclerViewListFragment : Fragment(), EndlessRecyclerViewClickInte
             val bundle = Bundle()
             bundle.putParcelable("movie", movie)
 
-            replace<EndlessRecyclerViewDetailsFragment>(R.id.fragment_container_view, "EndlessRecyclerViewDetailsFragmentTag", bundle)
+            add<EndlessRecyclerViewDetailsFragment>(R.id.fragment_container_view, "EndlessRecyclerViewDetailsFragmentTag", bundle)
             setReorderingAllowed(true)
             addToBackStack("EndlessRecyclerViewDetailsFragment")
         }

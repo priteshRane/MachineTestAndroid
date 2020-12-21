@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.machinetestandroid.databinding.FragmentMainBinding
@@ -30,7 +31,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         binding.btnGoToBasicApiCallingExample.setOnClickListener {
             parentFragmentManager.commit {
-                replace<BasicListFragment>(R.id.fragment_container_view)
+                add<BasicListFragment>(R.id.fragment_container_view)
                 setReorderingAllowed(true)
                 addToBackStack("BasicListFragment")
             }
@@ -38,7 +39,7 @@ class MainFragment : Fragment() {
 
         binding.btnGoToRecyclerview.setOnClickListener {
             parentFragmentManager.commit {
-                replace<RecyclerViewListFragment>(R.id.fragment_container_view)
+                add<RecyclerViewListFragment>(R.id.fragment_container_view)
                 setReorderingAllowed(true)
                 addToBackStack("RecyclerViewListFragment")
             }
@@ -46,7 +47,7 @@ class MainFragment : Fragment() {
 
         binding.btnGoToEndlessRecyclerview.setOnClickListener {
             parentFragmentManager.commit {
-                replace<EndlessRecyclerViewListFragment>(R.id.fragment_container_view)
+                add<EndlessRecyclerViewListFragment>(R.id.fragment_container_view)
                 setReorderingAllowed(true)
                 addToBackStack("EndlessRecyclerViewListFragment")
             }
@@ -54,7 +55,7 @@ class MainFragment : Fragment() {
 
         binding.btnGoToPaging3.setOnClickListener {
             parentFragmentManager.commit {
-                replace<Paging3ListFragment>(R.id.fragment_container_view)
+                add<Paging3ListFragment>(R.id.fragment_container_view)
                 setReorderingAllowed(true)
                 addToBackStack("Paging3ListFragment")
             }
